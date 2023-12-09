@@ -3,7 +3,6 @@ import 'animate.css'
 import { type prize } from '@/types/prize'
 const runtimeConfig = useRuntimeConfig();
 const prizeMap = useState<Map<number, prize>>("prizeMap")
-const viewId = useState<number>("viewId")
 const route = useRoute();
 const prizeId = Number(route.params.id);
 const introVisible = ref(true);
@@ -14,9 +13,6 @@ const photoUrl = computed(() => {
 setTimeout(() => {
     introVisible.value = false;
 }, 5000);
-
-viewId.value--;
-console.log("prizeMap", prizeMap.value)
 </script>
 
 <template>
@@ -27,7 +23,8 @@ console.log("prizeMap", prizeMap.value)
         <img :src="photoUrl" />
         <h3>{{ prizeMap.get(prizeId)?.name }}</h3>
         <h2>{{ prizeMap.get(prizeId)?.account_name }}様</h2>
-        <NuxtLink v-bind:to="{ name: 'result-id', params: { id: viewId } }" v-if="viewId !== 0">
+        <NuxtLink v-bind:to="{ name: 'result-id', params: { id: Number(route.params.id) - 1 } }"
+            v-if="Number(route.params.id) - 1 !== 0">
             <button class="middle">
                 次の発表
             </button>
